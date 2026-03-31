@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectBike.DataAccess.Memory\ProjectBike.DataAccess.Memory.csproj" />
+    <ProjectReference Include="..\ProjectBike.DataModel\ProjectBike.DataModel.csproj" />
+    <ProjectReference Include="..\ProjectBike.ServiceAbstractions\ProjectBike.ServiceAbstractions.csproj" />
+  </ItemGroup>
+
+</Project>

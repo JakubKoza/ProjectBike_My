@@ -1,0 +1,141 @@
+﻿<Window x:Class="ProjectBike.Desktop.Windows.FinalMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectBike.Desktop.Windows"
+        mc:Ignorable="d"
+        Title="Project Bike" Height="480" Width="854"
+        MinHeight="480" MinWidth="854" 
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        FontFamily="{DynamicResource MaterialDesign.FontFamily}">
+
+    <materialDesign:Card UniformCornerRadius="0">
+        <TabControl
+        materialDesign:NavigationRailAssist.ShowSelectionBackground="True"
+        SnapsToDevicePixels="True"
+        Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+        TabStripPlacement="Left">
+      
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Bike"/>
+                        <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" Text="Dodaj Klienta" />
+                    </StackPanel>
+                </TabItem.Header>
+
+                <StackPanel Margin="16">
+                    <TextBlock Margin="0,0,0,8" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="System dodawania nowego klienta" />
+                        <TextBlock>
+                            <TextBox x:Name="NameTextBox" Width="100" 
+                                     materialDesign:HintAssist.HelperText="Helper text longer than error"
+                                     materialDesign:HintAssist.Hint="Imię">
+                                <TextBox.Text>
+                                    <Binding Path="Imię" UpdateSourceTrigger="PropertyChanged">
+                                        
+                                        
+                                    </Binding>
+                                </TextBox.Text>
+                             </TextBox>
+                            
+                            <TextBox x:Name="LastnameTextBox" Width="100" 
+                                     materialDesign:HintAssist.HelperText="Helper text longer than error"
+                                     materialDesign:HintAssist.Hint="Nazwisko">
+                                <TextBox.Text>
+                                    <Binding Path="Nazwisko" UpdateSourceTrigger="PropertyChanged">
+                                        
+                                        
+                                    </Binding>
+                                </TextBox.Text>
+                             </TextBox>                            
+                            
+                        <LineBreak />
+                        <LineBreak />
+                        <Run FontStyle="Italic">
+                          Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+                        </Run>
+                    </TextBlock>
+                </StackPanel>
+
+            </TabItem>
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="FolderAccount"/>
+                        <TextBlock TextAlignment="Center" ><Run Text="Wypożyczenia"/></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                
+                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
+                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
+                </Grid>
+                
+            </TabItem>
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
+                            Rowery
+                        </TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
+                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
+                             Rowery
+                        </TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
+                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
+                            Rowery
+                        </TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
+                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Width="120">
+                <TabItem.Header>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Settings"/>
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
+                            Ustawienia
+                        </TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
+                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+    </materialDesign:Card>
+
+</Window>
