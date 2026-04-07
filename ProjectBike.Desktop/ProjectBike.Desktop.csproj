@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Windows\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
@@ -19,6 +23,10 @@
     <ProjectReference Include="..\ProjectBike.DataModel\ProjectBike.DataModel.csproj" />
     <ProjectReference Include="..\ProjectBike.ServiceAbstractions\ProjectBike.ServiceAbstractions.csproj" />
     <ProjectReference Include="..\ProjectBike.Services.Memory\ProjectBike.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Windows\icon.ico" />
   </ItemGroup>
 
 </Project>

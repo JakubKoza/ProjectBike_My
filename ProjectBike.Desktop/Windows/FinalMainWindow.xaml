@@ -5,137 +5,136 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectBike.Desktop.Windows"
+        xmlns:views="clr-namespace:ProjectBike.Desktop.Views"
         mc:Ignorable="d"
         Title="Project Bike" Height="480" Width="854"
         MinHeight="480" MinWidth="854" 
+        Icon="/Windows/icon.ico"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
         Background="{DynamicResource MaterialDesign.Brush.Background}"
         FontFamily="{DynamicResource MaterialDesign.FontFamily}">
 
-    <materialDesign:Card UniformCornerRadius="0">
-        <TabControl
-        materialDesign:NavigationRailAssist.ShowSelectionBackground="True"
-        SnapsToDevicePixels="True"
-        Style="{StaticResource MaterialDesignNavigationRailTabControl}"
-        TabStripPlacement="Left">
-      
-            <TabItem Width="120">
-                <TabItem.Header>
-                    <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Bike"/>
-                        <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" Text="Dodaj Klienta" />
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <materialDesign:ColorZone Grid.Row="0" 
+                                      Padding="16,8"
+                                      materialDesign:ElevationAssist.Elevation="Dp3"
+                                      Mode="PrimaryMid">
+            <DockPanel>
+                <Button Style="{StaticResource MaterialDesignToolButton}" 
+                                Click="LogoButton_Click"   
+                                Height="40">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Bike" 
+                                                     Width="32" Height="32" 
+                                                     VerticalAlignment="Center"/>
+                        <TextBlock Text="RENT APP" 
+                                       FontSize="20" 
+                                       FontWeight="Bold"
+                                       Margin="12,0,0,0" 
+                                       VerticalAlignment="Center"/>
                     </StackPanel>
-                </TabItem.Header>
+                </Button>
 
-                <StackPanel Margin="16">
-                    <TextBlock Margin="0,0,0,8" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="System dodawania nowego klienta" />
-                        <TextBlock>
-                            <TextBox x:Name="NameTextBox" Width="100" 
-                                     materialDesign:HintAssist.HelperText="Helper text longer than error"
-                                     materialDesign:HintAssist.Hint="Imię">
-                                <TextBox.Text>
-                                    <Binding Path="Imię" UpdateSourceTrigger="PropertyChanged">
-                                        
-                                        
-                                    </Binding>
-                                </TextBox.Text>
-                             </TextBox>
-                            
-                            <TextBox x:Name="LastnameTextBox" Width="100" 
-                                     materialDesign:HintAssist.HelperText="Helper text longer than error"
-                                     materialDesign:HintAssist.Hint="Nazwisko">
-                                <TextBox.Text>
-                                    <Binding Path="Nazwisko" UpdateSourceTrigger="PropertyChanged">
-                                        
-                                        
-                                    </Binding>
-                                </TextBox.Text>
-                             </TextBox>                            
-                            
-                        <LineBreak />
-                        <LineBreak />
-                        <Run FontStyle="Italic">
-                          Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-                        </Run>
-                    </TextBlock>
-                </StackPanel>
+                <materialDesign:PopupBox HorizontalAlignment="Right"
+                                             PlacementMode="BottomAndAlignRightEdges" 
+                                             StaysOpen="False" Margin="16,0,0,0">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <StackPanel Orientation="Horizontal"                          
+                                        Cursor="Hand">
+                            <TextBlock Text="Mój Profil" 
+                                           FontSize="15"
+                                           Margin="0,0,8,0" 
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Bold"/>
+                            <materialDesign:PackIcon Kind="AccountCircle" 
+                                                         Width="36" Height="36"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox.ToggleContent>
 
-            </TabItem>
-            <TabItem Width="120">
-                <TabItem.Header>
-                    <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="FolderAccount"/>
-                        <TextBlock TextAlignment="Center" ><Run Text="Wypożyczenia"/></TextBlock>
+                    <StackPanel Width="150">
+                        <Button Content="Ustawienia" />
+                        <Separator/>
+                        <Button Content="Wyloguj" 
+                                    FontWeight="Bold"
+                                    Foreground="IndianRed" />
                     </StackPanel>
-                </TabItem.Header>
-                
-                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
-                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
-                </Grid>
-                
-            </TabItem>
-            <TabItem Width="120">
-                <TabItem.Header>
+                </materialDesign:PopupBox>
+
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListBox x:Name="MenuListBox" Grid.Column="0" 
+                     Width="Auto"
+                     SelectedIndex="0">
+
+                <ListBoxItem Visibility="Collapsed" />
+
+                <ListBoxItem>
                     <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
-                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
-                            Rowery
-                        </TextBlock>
+                        <materialDesign:PackIcon Width="28"
+                                                 Height="28" 
+                                                 HorizontalAlignment="Center"
+                                                 Kind="AccountPlus"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Dodaj Klienta" />
                     </StackPanel>
-                </TabItem.Header>
+                </ListBoxItem>
 
-                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
-                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
-                </Grid>
-
-            </TabItem>
-            <TabItem Width="120">
-                <TabItem.Header>
+                <ListBoxItem>
                     <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
-                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
-                             Rowery
-                        </TextBlock>
+                        <materialDesign:PackIcon Width="28" 
+                                                 Height="28" 
+                                                 HorizontalAlignment="Center" 
+                                                 Kind="KeyChain"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Wypożyczenia" />
                     </StackPanel>
-                </TabItem.Header>
+                </ListBoxItem>
 
-                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
-                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
-                </Grid>
-
-            </TabItem>
-            <TabItem Width="120">
-                <TabItem.Header>
+                <ListBoxItem>
                     <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Garage"/>
-                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
-                            Rowery
-                        </TextBlock>
+                        <materialDesign:PackIcon Width="28" 
+                                                 Height="28"
+                                                 HorizontalAlignment="Center" 
+                                                 Kind="Archive"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Baza Rowerów" />
                     </StackPanel>
-                </TabItem.Header>
+                </ListBoxItem>
 
-                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
-                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
-                </Grid>
 
-            </TabItem>
-            <TabItem Width="120">
-                <TabItem.Header>
-                    <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Settings"/>
-                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center">
-                            Ustawienia
-                        </TextBlock>
-                    </StackPanel>
-                </TabItem.Header>
 
-                <Grid Background="{DynamicResource MaterialDesign.Brush.Surface}">
-                    <TextBlock Text="TUTAJ BĘDZIE FORMULARZ KLIENTA" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Opacity="0.5"/>
-                </Grid>
+            </ListBox>
 
-            </TabItem>
-        </TabControl>
-    </materialDesign:Card>
+            <materialDesign:Transitioner Grid.Column="1"  
+                             SelectedIndex="{Binding ElementName=MenuListBox, Path=SelectedIndex}">
 
+                <views:StartView />
+
+                <views:AddClientView />
+
+                <views:AddClientView />
+
+            </materialDesign:Transitioner>
+
+        </Grid>
+    </Grid>
 </Window>

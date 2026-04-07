@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="ProjectBike.Desktop.Views.AddClientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="{DynamicResource MaterialDesign.Brush.Background}">
+
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="True" />
+    </UserControl.CacheMode>
+
+    <Grid Margin="24,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+            
+            
+
+            <StackPanel Margin="0,0,0,24">
+
+                <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0" >
+                    <Border Background="#b58f83" 
+                            CornerRadius="0,0,16,16" 
+                            Padding="32,12,32,16">
+                        <TextBlock Text="Rejestracja nowego klienta" FontSize="24" 
+                                   FontWeight="Light" Foreground="Black"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Margin="0,16,0,24">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="Account" Width="20" Height="20"
+                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="DANE OSOBOWE" FontSize="14" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Imię"
+                                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Nazwisko"
+                                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,0,16" 
+                                 FontSize="16" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="HomeModern" Width="20" Height="20"
+                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="DANE KONTAKTOWE" FontSize="14" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Ulica"
+                                 Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Numer Domu"
+                                 Text="{Binding HouseNumber, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Miasto"
+                                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,0,16" 
+                                 FontSize="16" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Województwo"
+                                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Kod Pocztowy"
+                                 Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  materialDesign:HintAssist.Hint="Kraj"
+                                  Width="150" 
+                                  Margin="0,0,16,16" 
+                                  FontSize="16">
+                            <ComboBoxItem Content="Polska" IsSelected="True" />
+                            <ComboBoxItem Content="Niemcy" />
+                            <ComboBoxItem Content="Czechy" />
+                            <ComboBoxItem Content="Słowacja" />
+                            <ComboBoxItem Content="Ukraina" />
+                        </ComboBox>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="StarOutline" Width="20" Height="20"
+                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="PREFERENCJE" FontSize="14" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Pole 1"
+                                 Text="{Binding Pref1, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150"
+                                 Margin="0,0,16,16" FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Pole 2"
+                                 Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150"
+                                 Margin="0,0,0,16" FontSize="16" />
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

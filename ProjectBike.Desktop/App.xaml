@@ -4,10 +4,15 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Teal" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+
+                    <materialDesign:CustomColorTheme BaseTheme="Dark" 
+                                                     PrimaryColor="#b58f83" 
+                                                     SecondaryColor="#e7bfb2" />
+
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
     </Application.Resources>
 </Application>
