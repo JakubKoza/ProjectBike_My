@@ -15,11 +15,8 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
-            
-            
 
             <StackPanel Margin="0,0,0,24">
-
                 <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0" >
                     <Border Background="#b58f83" 
                             CornerRadius="0,0,16,16" 
@@ -120,26 +117,40 @@
                 <StackPanel Margin="0,0,0,24">
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
-                        <materialDesign:PackIcon Kind="StarOutline" Width="20" Height="20"
-                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="PREFERENCJE" FontSize="14" FontWeight="Bold"
-                                   VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="BoxAddOutline" Width="20" Height="20"
+                                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="INFORMACJE O KLIENCIE" FontSize="14" FontWeight="Bold"
+                                    VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:HintAssist.Hint="Pole 1"
-                                 Text="{Binding Pref1, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="150"
-                                 Margin="0,0,16,16" FontSize="16" />
+                             materialDesign:HintAssist.Hint="Wzrost"
+                             Text="{Binding Pref1, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,16,16" FontSize="16" />
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:HintAssist.Hint="Pole 2"
-                                 Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="150"
-                                 Margin="0,0,0,16" FontSize="16" />
+                             materialDesign:HintAssist.Hint="Waga"
+                             Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,16,16" FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Wiek"
+                             Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,0,16" FontSize="16" />
                     </StackPanel>
 
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24" Orientation="Horizontal">
+                    <Button Content="DODAJ KLIENTA"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                            ToolTip="MaterialDesignOutlinedButton"
+                            Width="250" Height="50"/>        
                 </StackPanel>
 
             </StackPanel>
