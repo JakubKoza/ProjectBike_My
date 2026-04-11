@@ -67,4 +67,6 @@ public class BikesMenu : MenuBase
         var bikeId = bikes[idx].Id;
         new BikeDetailsMenu(bikeId, _bikeSvc, _clientSvc, _rentalSvc).Run();
     }
+
+
 }

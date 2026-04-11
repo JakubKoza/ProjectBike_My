@@ -48,7 +48,7 @@ public class ClientMenu : MenuBase // dziedziczy po oknie głównym
         var country = ConsoleHelpers.ReadString("kraj: ");
 
         _clientSvc.CreateClient(firstname, lastname, age, height, weight, street, housenumber, city, state, zipcode, country);
-        System.Console.WriteLine("Dodano klienta.");
+        System.Console.WriteLine("Zaktualizowano Klienta klienta.");
         ConsoleHelpers.Pause();
     }
 

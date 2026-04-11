@@ -14,7 +14,7 @@ public interface IClientService
                      string street, string housenumber, string city, string state, string zipcode, string country);
     Client? Get(int id);
     IReadOnlyList<Client> GetAll();
-    void UpdateClient(int id, string firstName, string lastName, int age, double height, double weight,
+    void UpdateClient(int Id, string firstName, string lastName, int age, double height, double weight,
                      string street, string housenumber, string city, string state, string zipcode, string country);
     bool DeleteClient(int clientId);
 }

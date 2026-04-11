@@ -723,9 +723,11 @@ public class ClientDetailMenu : MenuBase
 --- END FILENAME ---
 
 --- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Clients\ClientMenu.cs ---
-using ProjectBike.Console.UINew.Helpers;
-using ProjectBike.Console.UINew.Core;
 using ProjectBike.Console.UINew;
+using ProjectBike.Console.UINew.Bikes;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
+using ProjectBike.DataModel.Models;
 using ProjectBike.ServiceAbstractions;
 using ProjectBike.Services;
 using System;
@@ -748,7 +750,7 @@ public class ClientMenu : MenuBase // dziedziczy po oknie głównym
     {
         ['1'] = new("Lista klientow", ShowClient),
         ['2'] = new("Dodaj klienta", AddClient),
-        ['3'] = new("Szczegóły wybranego klienta (Edytuj, Usuń)", ShowClient),
+        ['3'] = new("Szczegóły wybranego klienta (Edytuj, Usuń)", ClientDetailFlow),
         ['0'] = new("Powrót", null),
     };
     private void ShowClient()
@@ -777,6 +779,20 @@ public class ClientMenu : MenuBase // dziedziczy po oknie głównym
 
     private void ClientDetailFlow()
     {
+        var clients = _clientSvc.GetAll().ToList();
+        if (!clients.Any())
+        {
+            System.Console.WriteLine("Brak klientów.");
+            ConsoleHelpers.Pause();
+            return;
+        }
+        ListPrinters.ShowClients(_clientSvc);
+
+        int idx = ConsoleHelpers.ReadIndex("Wybierz klienta (numer): ", clients.Count);
+        if (idx < 0) return;
+
+        var clientId = clients[idx].Id;
+        new ClientDetailMenu(clientId, _clientSvc).Run();
 
     }
 }
@@ -4144,7 +4160,6 @@ public class ClientService : IClientService
     public Client? Get(int id) => _clients.Get(id);
 
     public IReadOnlyList<Client> GetAll() => _clients.Query().ToList();
-
 
     public void UpdateClient(int id, string firstname, string lastname, int age, double height, double weight,
                         string street, string housenumber, string city, string state, string zipcode, string country)
