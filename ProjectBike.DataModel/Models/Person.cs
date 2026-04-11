@@ -8,16 +8,11 @@ namespace ProjectBike.DataModel.Models
 {
     public class Person //Klasa bazowa dla clients i Employess
     {
-        private int _id;
+        public int Id { get; set; }
+        public int Age { get; set; }
+
         private string _firstname = string.Empty;
         private string _lastname = string.Empty;
-        private int _age;
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
         public string Firstname
         {
             get { return _firstname; }
@@ -27,11 +22,6 @@ namespace ProjectBike.DataModel.Models
         {
             get { return _lastname; }
             set { _lastname = value; }
-        }
-        public int Age
-        {
-            get { return _age; }
-            set { _age = value; }
         }
     }    
 }

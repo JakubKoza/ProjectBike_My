@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Employees;
 
 public class EmployeeDetailsMenu : MenuBase
 {

@@ -8,26 +8,14 @@ namespace ProjectBike.DataModel.Models
 {
     public class Client : Person // Klasa dziedziczy po Person
     {
-        private double _height;
-        private double _weight;
-        private string _riderPreference = string.Empty;
-
-        public double Height
-        {
-            get { return _height; }
-            set { _height = value; }
-        }
-        public double Weight
-        {
-            get { return _weight; }
-            set { _weight = value; }
-        }
-        public string RiderPreference
-        {
-            get { return _riderPreference; }
-            set { _riderPreference = value; }
-        }
-
-        //public List<Rental> Rentals { get; set; } = new(); // asocjacja z rentals
+        // tutaj zastosowałem właściwości automatyczne
+        public string Street { get; set; } // Tysiąclecie
+        public string HouseNumber { get; set; } // 32A
+        public string City { get; set; } // Częstochowa
+        public string State { get; set; } // Śląsk
+        public string ZipCode { get; set; } // 12-12
+        public string Country { get; set; } // Polska
+        public double Height { get; set; } // 180cm
+        public double Weight { get; set; }  //70kg 
     }
 }

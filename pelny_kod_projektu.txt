@@ -104,140 +104,7 @@ namespace ProjectBike.Abstractions
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\Helpers\ConsoleHelpers.cs ---
-using System;
-using System.Globalization;
-
-namespace ProjectBike.Console.Helpers
-{
-    public static class ConsoleHelpers
-    {
-        public static void Pause()
-        {
-            System.Console.WriteLine();
-            System.Console.WriteLine("Naciśnij dowolny klawisz, aby kontynuować...");
-            System.Console.ReadKey(true);
-        }
-        public static int ReadIndex(string prompt, int count)
-        {
-            System.Console.Write(prompt);
-            var text = System.Console.ReadLine();
-
-            if (!int.TryParse(text, out int number))
-                return -1;
-
-            if (number < 1 || number > count)
-                return -1;
-
-            return number - 1;
-        }
-        public static string ReadString(string prompt)
-        {
-            System.Console.Write(prompt);
-            return System.Console.ReadLine() ?? string.Empty;
-        }
-        public static int ReadInt(string prompt)
-        {
-            System.Console.Write(prompt);
-            var input = System.Console.ReadLine();
-
-            if (int.TryParse(input, out int result))
-            {
-                return result;
-            }
-
-            return 0;
-        }
-        public static double ReadDouble(string prompt)
-        {
-            System.Console.Write(prompt);
-            var input = System.Console.ReadLine();
-            if (input != null)
-            {
-                input = input.Replace(',', '.');
-            }
-
-            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
-            {
-                return result;
-            }
-
-            return 0.0;
-        }
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\Helpers\ListPrinters.cs ---
-using System.Linq;
-using ProjectBike.ServiceAbstractions;
-
-namespace ProjectBike.Console.Helpers;
-
-public static class ListPrinters
-{
-    public static void ShowBikes(IBikeService bikeSvc)
-    {
-        var bikes = bikeSvc.GetAll();
-        if (!bikes.Any())
-        {
-            System.Console.WriteLine("Brak rowerów.");
-            return;
-        }
-
-        System.Console.WriteLine("\n--- [] Lista Rowerów [] ---");
-        int i = 1;
-        foreach (var b in bikes)
-        {
-            string status = b.IsAvailable ? "Dostępny" : "Wypożyczony";
-            System.Console.WriteLine($"{i++}) {b.Brand} {b.Model} [{b.Type}] - {status}");
-        }
-    }
-
-    public static void ShowEmployees(IEmployeeService empSvc)
-    {
-        var emps = empSvc.GetAll();
-        if (!emps.Any())
-        {
-            System.Console.WriteLine("Brak pracowników.");
-            return;
-        }
-
-        System.Console.WriteLine("\n--- [] Lista Pracowników [] ---");
-        int i = 1;
-        foreach (var e in emps)
-        {
-            System.Console.WriteLine($"{i++}) {e.Firstname} {e.Lastname} ({e.Position})");
-        }
-    }
-    public static void ShowRentals(IRentalService rentalSvc, IClientService clientSvc, IBikeService bikeSvc)
-    {
-        var rentals = rentalSvc.GetActiveRentals();
-        if (!rentals.Any())
-        {
-            System.Console.WriteLine("Brak aktywnych wypożyczeń.");
-            return;
-        }
-
-        System.Console.WriteLine("\n--- [] Aktywne Wypożyczenia [] ---");
-        int i = 1;
-        foreach (var r in rentals)
-        {
-            var client = clientSvc.Get(r.ClientId);
-            var bike = bikeSvc.Get(r.BikeId);
-
-            string clientName = client != null ? $"{client.Firstname} {client.Lastname}" : $"Klient {r.ClientId}";
-            string bikeName = bike != null ? $"{bike.Brand} {bike.Model}" : $"Rower {r.BikeId}";
-
-            System.Console.WriteLine($"{i++}) [ID:{r.Id}] {clientName} wypożyczył/a {bikeName} (do: {r.EndDate:yyyy-MM-dd})");
-        }
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI\BikeMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI (Stare, Nieużywane)\BikeMenu.cs ---
 using ProjectBike.Console.Helpers;
 using ProjectBike.ServiceAbstractions;
 using System;
@@ -361,7 +228,7 @@ namespace ProjectBike.Console.UI
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI\EmployeeMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI (Stare, Nieużywane)\EmployeeMenu.cs ---
 using ProjectBike.Console.Helpers;
 using ProjectBike.ServiceAbstractions;
 using System;
@@ -459,8 +326,9 @@ namespace ProjectBike.Console.UI
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI\MainMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI (Stare, Nieużywane)\MainMenu.cs ---
 using System;
+using ProjectBike.Console.UIDictionary;
 using ProjectBike.ServiceAbstractions;
 namespace ProjectBike.Console.UI
 {
@@ -483,9 +351,10 @@ namespace ProjectBike.Console.UI
             {
                 System.Console.Clear();
                 System.Console.WriteLine("=== STARE MENU (SWITCH) ===");
-                System.Console.WriteLine("1) Rowery");
-                System.Console.WriteLine("2) Pracownicy");
-                System.Console.WriteLine("3) Wypożyczenia");
+                System.Console.WriteLine("1) Klienci");
+                System.Console.WriteLine("2) Rowery");
+                System.Console.WriteLine("3) Pracownicy");
+                System.Console.WriteLine("4) Wypożyczenia");
                 System.Console.WriteLine("0) Wyjście");
                 System.Console.Write("Wybierz opcję: ");
 
@@ -494,13 +363,13 @@ namespace ProjectBike.Console.UI
 
                 switch (key.KeyChar)
                 {
-                    case '1':
+                    case '2':
                         _bikeMenu.Run();
                         break;
-                    case '2':
+                    case '3':
                         _employeesMenu.Run();
                         break;
-                    case '3':
+                    case '4':
                         _rentalMenu.Run();
                         break;
                     case '0':
@@ -516,7 +385,7 @@ namespace ProjectBike.Console.UI
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI\RentalMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UI (Stare, Nieużywane)\RentalMenu.cs ---
 using ProjectBike.Console.Helpers;
 using ProjectBike.ServiceAbstractions;
 using System;
@@ -635,14 +504,15 @@ namespace ProjectBike.Console.UI
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\BikeDetailsMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Bikes\BikeDetailsMenu.cs ---
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Bikes;
 
 public class BikeDetailsMenu : MenuBase
 {
@@ -753,14 +623,16 @@ public class BikeDetailsMenu : MenuBase
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\BikesMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Bikes\BikesMenu.cs ---
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Bikes;
 
 public class BikesMenu : MenuBase
 {
@@ -825,12 +697,166 @@ public class BikesMenu : MenuBase
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\EmployeeDetailsMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Clients\ClientDetailsMenu.cs ---
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.ServiceAbstractions;
+using System;
 using System.Collections.Generic;
-using ProjectBike.Console.Helpers;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectBike.Console.UINew.Clients;
+
+public class ClientDetailMenu : MenuBase
+{
+    private int _clientId;
+    private readonly IClientService _clientSvc;
+
+    public ClientDetailMenu(int clientId, IClientService clientSvc)
+    {
+        clientId = _clientId;
+        clientSvc = _clientSvc;
+    }
+}
+
+--- END FILENAME ---
+
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Clients\ClientMenu.cs ---
+using ProjectBike.Console.UINew.Helpers;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew;
+using ProjectBike.ServiceAbstractions;
+using ProjectBike.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectBike.Console.UINew.Clients;
+
+public class ClientMenu : MenuBase // dziedziczy po oknie głównym
+{
+    private readonly IClientService _clientSvc;
+    public ClientMenu (IClientService clientSvc) {
+        _clientSvc = clientSvc;
+    }
+    protected override string Title => "KLIENCI"; // wyświetla tytuł menu
+
+    protected override Dictionary<char, MenuOption> Options => new()
+    {
+        ['1'] = new("Lista klientow", ShowClient),
+        ['2'] = new("Dodaj klienta", AddClient),
+        ['3'] = new("Szczegóły wybranego klienta (Edytuj, Usuń)", ShowClient),
+        ['0'] = new("Powrót", null),
+    };
+    private void ShowClient()
+    {
+        ListPrinters.ShowClients(_clientSvc);
+        ConsoleHelpers.Pause();
+    }
+    private void AddClient()
+    {
+        var firstname = ConsoleHelpers.ReadString("Imie: ");
+        var lastname = ConsoleHelpers.ReadString("Nazwisko: ");
+        var age = ConsoleHelpers.ReadInt("Wiek: ");
+        var height = ConsoleHelpers.ReadInt("Wysokość (cm): ");
+        var weight = ConsoleHelpers.ReadInt("Waga (kg): ");
+        var street = ConsoleHelpers.ReadString("Ulica: ");
+        var housenumber = ConsoleHelpers.ReadString("Numer Domu: ");
+        var city = ConsoleHelpers.ReadString("Miejscowość: ");
+        var state = ConsoleHelpers.ReadString("Województwo: ");
+        var zipcode = ConsoleHelpers.ReadString("Kod Pocztowy: ");
+        var country = ConsoleHelpers.ReadString("kraj: ");
+
+        _clientSvc.CreateClient(firstname, lastname, age, height, weight, street, housenumber, city, state, zipcode, country);
+        System.Console.WriteLine("Dodano klienta.");
+        ConsoleHelpers.Pause();
+    }
+
+    private void ClientDetailFlow()
+    {
+
+    }
+}
+
+--- END FILENAME ---
+
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Core\MenuBase.cs ---
+using System;
+using System.Collections.Generic;
+using ProjectBike.Console.UINew.Helpers;
+
+namespace ProjectBike.Console.UINew.Core;
+
+public abstract class MenuBase
+{
+    protected abstract string Title { get; }
+    protected abstract Dictionary<char, MenuOption> Options { get; }
+
+    public void Run()
+    {
+        while (true)
+        {
+            System.Console.Clear();
+            System.Console.WriteLine($"=== {Title} ===\n");
+
+            foreach (var kv in Options)
+                System.Console.WriteLine($"{kv.Key}) {kv.Value.Description}");
+
+            System.Console.Write("\nWybierz opcję: ");
+            var key = System.Console.ReadKey();
+            System.Console.WriteLine();
+
+            if (!Options.ContainsKey(key.KeyChar))
+            {
+                System.Console.WriteLine("Nieznana opcja.");
+                ConsoleHelpers.Pause();
+                continue;
+            }
+
+            var option = Options[key.KeyChar];
+            if (option.Action == null)
+                return;
+
+            try
+            {
+                option.Action();
+            }
+            
+            catch (ExitMenuException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"Błąd: {ex.Message}");
+                ConsoleHelpers.Pause();
+            }
+        }
+    }
+    public class ExitMenuException : Exception { }
+}
+
+--- END FILENAME ---
+
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Core\MenuOption.cs ---
+using System;
+
+namespace ProjectBike.Console.UINew.Core;
+
+public record MenuOption(string Description, Action? Action);
+
+--- END FILENAME ---
+
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Employees\EmployeeDetailsMenu.cs ---
+using System.Collections.Generic;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Employees;
 
 public class EmployeeDetailsMenu : MenuBase
 {
@@ -870,13 +896,16 @@ public class EmployeeDetailsMenu : MenuBase
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\EmployeesMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Employees\EmployeesMenu.cs ---
 using System.Collections.Generic;
 using System.Linq;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
+using ProjectBike.Console.UINew.Employees;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Employes;
 
 public class EmployeesMenu : MenuBase
 {
@@ -930,113 +959,164 @@ public class EmployeesMenu : MenuBase
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\MainMenu.cs ---
-using System.Collections.Generic;
-using ProjectBike.ServiceAbstractions;
-
-namespace ProjectBike.Console.UIDictionary
-{
-    public class MainMenu : MenuBase
-    {
-        private readonly BikesMenu _bikesMenu;
-        private readonly EmployeesMenu _employeesMenu;
-        private readonly RentalsMenu _rentalsMenu;
-
-        public MainMenu(IBikeService bikeSvc, IEmployeeService employeeSvc, IClientService clientSvc, IRentalService rentalSvc)
-        {
-            _bikesMenu = new BikesMenu(bikeSvc, clientSvc, rentalSvc);
-            _employeesMenu = new EmployeesMenu(employeeSvc);
-            _rentalsMenu = new RentalsMenu(rentalSvc, bikeSvc, clientSvc);
-        }
-
-        protected override string Title => "[] SYSTEM WYPOŻYCZALNI ROWERÓW []";
-
-        protected override Dictionary<char, MenuOption> Options => new()
-        {
-            ['1'] = new("Rowery", () => _bikesMenu.Run()),
-            ['2'] = new("Pracownicy", () => _employeesMenu.Run()),
-            ['3'] = new("Wypożyczenia", () => _rentalsMenu.Run()),
-            ['0'] = new("Wyjście", null),
-        };
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\MenuBase.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Helpers\ConsoleHelpers.cs ---
 using System;
-using System.Collections.Generic;
-using ProjectBike.Console.Helpers;
+using System.Globalization;
 
-namespace ProjectBike.Console.UIDictionary;
-
-public abstract class MenuBase
+namespace ProjectBike.Console.UINew.Helpers
 {
-    protected abstract string Title { get; }
-    protected abstract Dictionary<char, MenuOption> Options { get; }
-
-    public void Run()
+    public static class ConsoleHelpers
     {
-        while (true)
+        public static void Pause()
         {
-            System.Console.Clear();
-            System.Console.WriteLine($"=== {Title} ===\n");
-
-            foreach (var kv in Options)
-                System.Console.WriteLine($"{kv.Key}) {kv.Value.Description}");
-
-            System.Console.Write("\nWybierz opcję: ");
-            var key = System.Console.ReadKey();
             System.Console.WriteLine();
+            System.Console.WriteLine("Naciśnij dowolny klawisz, aby kontynuować...");
+            System.Console.ReadKey(true);
+        }
+        public static int ReadIndex(string prompt, int count)
+        {
+            System.Console.Write(prompt);
+            var text = System.Console.ReadLine();
 
-            if (!Options.ContainsKey(key.KeyChar))
+            if (!int.TryParse(text, out int number))
+                return -1;
+
+            if (number < 1 || number > count)
+                return -1;
+
+            return number - 1;
+        }
+        public static string ReadString(string prompt)
+        {
+            System.Console.Write(prompt);
+            return System.Console.ReadLine() ?? string.Empty;
+        }
+        public static int ReadInt(string prompt)
+        {
+            System.Console.Write(prompt);
+            var input = System.Console.ReadLine();
+
+            if (int.TryParse(input, out int result))
             {
-                System.Console.WriteLine("Nieznana opcja.");
-                ConsoleHelpers.Pause();
-                continue;
+                return result;
             }
 
-            var option = Options[key.KeyChar];
-            if (option.Action == null)
-                return;
+            return 0;
+        }
+        public static double ReadDouble(string prompt)
+        {
+            System.Console.Write(prompt);
+            var input = System.Console.ReadLine();
+            if (input != null)
+            {
+                input = input.Replace(',', '.');
+            }
 
-            try
+            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
             {
-                option.Action();
+                return result;
             }
-            
-            catch (ExitMenuException)
-            {
-                return;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine($"Błąd: {ex.Message}");
-                ConsoleHelpers.Pause();
-            }
+
+            return 0.0;
         }
     }
-    public class ExitMenuException : Exception { }
 }
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\MenuOption.cs ---
-using System;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Helpers\ListPrinters.cs ---
+using System.Linq;
+using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Helpers;
 
-public record MenuOption(string Description, Action? Action);
+public static class ListPrinters
+{
+    public static void ShowBikes(IBikeService bikeSvc)
+    {
+        var bikes = bikeSvc.GetAll();
+        if (!bikes.Any())
+        {
+            System.Console.WriteLine("Brak rowerów.");
+            return;
+        }
+
+        System.Console.WriteLine("\n--- [] Lista Rowerów [] ---");
+        int i = 1;
+        foreach (var b in bikes)
+        {
+            string status = b.IsAvailable ? "Dostępny" : "Wypożyczony";
+            System.Console.WriteLine($"{i++}) {b.Brand} {b.Model} [{b.Type}] - {status}");
+        }
+    }
+
+    public static void ShowEmployees(IEmployeeService empSvc)
+    {
+        var emps = empSvc.GetAll();
+        if (!emps.Any())
+        {
+            System.Console.WriteLine("Brak pracowników.");
+            return;
+        }
+
+        System.Console.WriteLine("\n--- [] Lista Pracowników [] ---");
+        int i = 1;
+        foreach (var e in emps)
+        {
+            System.Console.WriteLine($"{i++}) {e.Firstname} {e.Lastname} ({e.Position})");
+        }
+    }
+
+    public static void ShowClients(IClientService clientSvc)
+    {
+        var clients = clientSvc.GetAll();
+        if (!clients.Any())
+        {
+            System.Console.WriteLine("Brak Klientów.");
+            return;
+        }
+        System.Console.WriteLine("\n--- [] Lista Klientów [] ---");
+        int i = 1;
+        foreach (var c in clients)
+        {
+            System.Console.WriteLine($"{i++}) {c.Firstname} {c.Lastname} {c.Age} {c.Weight} {c.Height} " +
+                $"                            {c.Street} {c.HouseNumber} {c.City} {c.State} {c.ZipCode} {c.Country}");
+        }
+    }
+    public static void ShowRentals(IRentalService rentalSvc, IClientService clientSvc, IBikeService bikeSvc)
+    {
+        var rentals = rentalSvc.GetActiveRentals();
+        if (!rentals.Any())
+        {
+            System.Console.WriteLine("Brak aktywnych wypożyczeń.");
+            return;
+        }
+
+        System.Console.WriteLine("\n--- [] Aktywne Wypożyczenia [] ---");
+        int i = 1;
+        foreach (var r in rentals)
+        {
+            var client = clientSvc.Get(r.ClientId);
+            var bike = bikeSvc.Get(r.BikeId);
+
+            string clientName = client != null ? $"{client.Firstname} {client.Lastname}" : $"Klient {r.ClientId}";
+            string bikeName = bike != null ? $"{bike.Brand} {bike.Model}" : $"Rower {r.BikeId}";
+
+            System.Console.WriteLine($"{i++}) [ID:{r.Id}] {clientName} wypożyczył/a {bikeName} (do: {r.EndDate:yyyy-MM-dd})");
+        }
+    }
+}
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\RentalDetailsMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Rentals\RentalDetailsMenu.cs ---
 using System;
 using System.Collections.Generic;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Rentals;
 
 public class RentalDetailsMenu : MenuBase
 {
@@ -1093,14 +1173,16 @@ public class RentalDetailsMenu : MenuBase
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UIDictionary\RentalsMenu.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\Rentals\RentalsMenu.cs ---
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Rentals;
 
 public class RentalsMenu : MenuBase
 {
@@ -1202,13 +1284,54 @@ public class RentalsMenu : MenuBase
 
 --- END FILENAME ---
 
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\UINew\MainMenu.cs ---
+using System.Collections.Generic;
+using ProjectBike.Console.UINew.Bikes;
+using ProjectBike.Console.UINew.Clients;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Employes;
+using ProjectBike.Console.UINew.Rentals;
+using ProjectBike.ServiceAbstractions;
+
+namespace ProjectBike.Console.UINew
+{
+    public class MainMenu : MenuBase
+    {
+        private readonly BikesMenu _bikesMenu;
+        private readonly EmployeesMenu _employeesMenu;
+        private readonly RentalsMenu _rentalsMenu;
+        private readonly ClientMenu _clientsMenu;
+
+        public MainMenu(IBikeService bikeSvc, IEmployeeService employeeSvc, IClientService clientSvc, IRentalService rentalSvc)
+        {
+            _bikesMenu = new BikesMenu(bikeSvc, clientSvc, rentalSvc);
+            _clientsMenu = new ClientMenu(clientSvc);
+            _employeesMenu = new EmployeesMenu(employeeSvc);
+            _rentalsMenu = new RentalsMenu(rentalSvc, bikeSvc, clientSvc);
+        }
+
+        protected override string Title => "[] SYSTEM WYPOŻYCZALNI ROWERÓW []";
+
+        protected override Dictionary<char, MenuOption> Options => new()
+        {
+            ['1'] = new("Klienci", () => _clientsMenu.Run()),
+            ['2'] = new("Rowery", () => _bikesMenu.Run()),
+            ['3'] = new("Pracownicy", () => _employeesMenu.Run()),
+            ['4'] = new("Wypożyczenia", () => _rentalsMenu.Run()),
+            ['0'] = new("Wyjście", null),
+        };
+    }
+}
+
+--- END FILENAME ---
+
 --- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Console\Program.cs ---
 using ProjectBike.Abstractions;
 using ProjectBike.DataAccess.Memory;
 using ProjectBike.DataAccess.Memory.Repositories;
 using ProjectBike.ServiceAbstractions;
 using ProjectBike.Services;
-using ProjectBike.Console.UIDictionary;
+using ProjectBike.Console.UINew;
 
 namespace Program;
 class Program
@@ -1529,27 +1652,15 @@ namespace ProjectBike.DataModel.Models
 {
     public class Client : Person // Klasa dziedziczy po Person
     {
-        private double _height;
-        private double _weight;
-        private string _riderPreference = string.Empty;
-
-        public double Height
-        {
-            get { return _height; }
-            set { _height = value; }
-        }
-        public double Weight
-        {
-            get { return _weight; }
-            set { _weight = value; }
-        }
-        public string RiderPreference
-        {
-            get { return _riderPreference; }
-            set { _riderPreference = value; }
-        }
-
-        //public List<Rental> Rentals { get; set; } = new(); // asocjacja z rentals
+        // tutaj zastosowałem właściwości automatyczne
+        public string Street { get; set; } // Tysiąclecie
+        public string HouseNumber { get; set; } // 32A
+        public string City { get; set; } // Częstochowa
+        public string State { get; set; } // Śląsk
+        public string ZipCode { get; set; } // 12-12
+        public string Country { get; set; } // Polska
+        public double Height { get; set; } // 180cm
+        public double Weight { get; set; }  //70kg 
     }
 }
 
@@ -1574,8 +1685,6 @@ namespace ProjectBike.DataModel.Models
             get { return _position; }
             set { _position = value; }
         }
-
-        //public List<Rental> Rentals { get; set; } = new(); // Asocjacja z wypożyczeniami
     }
 }
 
@@ -1636,16 +1745,11 @@ namespace ProjectBike.DataModel.Models
 {
     public class Person //Klasa bazowa dla clients i Employess
     {
-        private int _id;
+        public int Id { get; set; }
+        public int Age { get; set; }
+
         private string _firstname = string.Empty;
         private string _lastname = string.Empty;
-        private int _age;
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
         public string Firstname
         {
             get { return _firstname; }
@@ -1655,11 +1759,6 @@ namespace ProjectBike.DataModel.Models
         {
             get { return _lastname; }
             set { _lastname = value; }
-        }
-        public int Age
-        {
-            get { return _age; }
-            set { _age = value; }
         }
     }    
 }
@@ -1901,6 +2000,46 @@ using System.Windows;
 
 namespace ProjectBike.Desktop.Services
 {
+    //public interface IBikeDialogService
+    //{
+    //    (bool ok, string brand, string model, string type) PromptAddBike();
+    //    (bool ok, string brand, string model, string type) PromptEditBike(string cBrand, string cModel, string cType);
+    //    bool Confirm(string message, string title);
+    //}
+
+    //public class BikeDialogService : IBikeDialogService
+    //{
+    //    private readonly Func<AddBikeWindow> _addFactory;
+    //    private readonly Func<EditBikeWindow> _editFactory;
+
+    //    public BikeDialogService(Func<AddBikeWindow> addFactory, Func<EditBikeWindow> editFactory)
+    //    {
+    //        _addFactory = addFactory;
+    //        _editFactory = editFactory;
+    //    }
+
+    //    public (bool ok, string brand, string model, string type) PromptAddBike()
+    //    {
+    //        var win = _addFactory();
+    //        var ok = win.ShowDialog() == true;
+    //        if (!ok) return (false, "", "", "");
+    //        var vm = (AddBikeViewModel)win.DataContext;
+    //        return (true, vm.Brand, vm.Model, vm.Type);
+    //    }
+
+    //    public (bool ok, string brand, string model, string type) PromptEditBike(string cBrand, string cModel, string cType)
+    //    {
+    //        var win = _editFactory();
+    //        var vm = (EditBikeViewModel)win.DataContext;
+    //        vm.SetInitial(cBrand, cModel, cType);
+    //        var ok = win.ShowDialog() == true;
+    //        if (!ok) return (false, "", "", "");
+    //        return (true, vm.Brand, vm.Model, vm.Type);
+    //    }
+
+    //    public bool Confirm(string message, string title)
+    //        => MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+    //}
     public interface IBikeDialogService
     {
         (bool ok, string brand, string model, string type) PromptAddBike();
@@ -1910,32 +2049,16 @@ namespace ProjectBike.Desktop.Services
 
     public class BikeDialogService : IBikeDialogService
     {
-        private readonly Func<AddBikeWindow> _addFactory;
-        private readonly Func<EditBikeWindow> _editFactory;
-
-        public BikeDialogService(Func<AddBikeWindow> addFactory, Func<EditBikeWindow> editFactory)
-        {
-            _addFactory = addFactory;
-            _editFactory = editFactory;
-        }
-
         public (bool ok, string brand, string model, string type) PromptAddBike()
         {
-            var win = _addFactory();
-            var ok = win.ShowDialog() == true;
-            if (!ok) return (false, "", "", "");
-            var vm = (AddBikeViewModel)win.DataContext;
-            return (true, vm.Brand, vm.Model, vm.Type);
+            MessageBox.Show("Dodawanie roweru (SPA) w trakcie budowy...", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            return (false, "", "", "");
         }
 
         public (bool ok, string brand, string model, string type) PromptEditBike(string cBrand, string cModel, string cType)
         {
-            var win = _editFactory();
-            var vm = (EditBikeViewModel)win.DataContext;
-            vm.SetInitial(cBrand, cModel, cType);
-            var ok = win.ShowDialog() == true;
-            if (!ok) return (false, "", "", "");
-            return (true, vm.Brand, vm.Model, vm.Type);
+            MessageBox.Show("Edycja roweru (SPA) w trakcie budowy...", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            return (false, "", "", "");
         }
 
         public bool Confirm(string message, string title)
@@ -1952,6 +2075,23 @@ using System.Windows;
 
 namespace ProjectBike.Desktop.Services
 {
+    //public interface IBikesWindowService
+    //{
+    //    bool ShowBikesWindow();
+    //}
+
+    //public class BikesWindowService : IBikesWindowService
+    //{
+    //    private readonly Func<BikesWindow> _factory;
+    //    public BikesWindowService(Func<BikesWindow> factory) => _factory = factory;
+
+    //    public bool ShowBikesWindow()
+    //    {
+    //        var win = _factory();
+    //        win.Owner = Application.Current.MainWindow;
+    //        return win.ShowDialog() == true;
+    //    }
+    //}
     public interface IBikesWindowService
     {
         bool ShowBikesWindow();
@@ -1959,14 +2099,10 @@ namespace ProjectBike.Desktop.Services
 
     public class BikesWindowService : IBikesWindowService
     {
-        private readonly Func<BikesWindow> _factory;
-        public BikesWindowService(Func<BikesWindow> factory) => _factory = factory;
-
         public bool ShowBikesWindow()
         {
-            var win = _factory();
-            win.Owner = Application.Current.MainWindow;
-            return win.ShowDialog() == true;
+            MessageBox.Show("Nawigacja do Bazy Rowerów w przebudowie...", "Nawigacja");
+            return false;
         }
     }
 }
@@ -1990,14 +2126,37 @@ namespace ProjectBike.Desktop.Services
 
     public sealed class ClientDialogService : IClientDialogService
     {
-        private readonly Func<AddClientWindow> _addFactory;
-        private readonly Func<EditClientWindow> _editFactory;
+        /*private readonly Func<AddClientWindow> _addFactory;
+        private readonly Func<EditClientWindow> _editFactory;*/
 
-        public ClientDialogService(Func<AddClientWindow> addFactory, Func<EditClientWindow> editFactory)
-        {
-            _addFactory = addFactory;
-            _editFactory = editFactory;
-        }
+        /* public ClientDialogService(Func<AddClientWindow> addFactory, Func<EditClientWindow> editFactory)
+         {
+             _addFactory = addFactory;
+             _editFactory = editFactory;
+         }*/
+
+        //public bool Confirm(string message, string title)
+        //{
+        //    return MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
+        //}
+
+        //public (string fname, string lname)? PromptAddClient()
+        //{
+        //    var dlg = _addFactory();
+        //    if (dlg.ShowDialog() != true) return null;
+        //    var vm = (AddClientViewModel)dlg.DataContext!;
+        //    return (vm.FirstName, vm.LastName);
+        //}
+
+        //public (string fname, string lname)? PromptEditClient(string currentFname, string currentLname)
+        //{
+        //    var dlg = _editFactory();
+        //    var vm = (EditClientViewModel)dlg.DataContext!;
+        //    vm.SetInitial(currentFname, currentLname);
+
+        //    if (dlg.ShowDialog() != true) return null;
+        //    return (vm.FirstName, vm.LastName);
+        //}
 
         public bool Confirm(string message, string title)
         {
@@ -2006,20 +2165,14 @@ namespace ProjectBike.Desktop.Services
 
         public (string fname, string lname)? PromptAddClient()
         {
-            var dlg = _addFactory();
-            if (dlg.ShowDialog() != true) return null;
-            var vm = (AddClientViewModel)dlg.DataContext!;
-            return (vm.FirstName, vm.LastName);
+            MessageBox.Show("Dodawanie klienta (SPA) w trakcie budowy...", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            return null;
         }
 
         public (string fname, string lname)? PromptEditClient(string currentFname, string currentLname)
         {
-            var dlg = _editFactory();
-            var vm = (EditClientViewModel)dlg.DataContext!;
-            vm.SetInitial(currentFname, currentLname);
-
-            if (dlg.ShowDialog() != true) return null;
-            return (vm.FirstName, vm.LastName);
+            MessageBox.Show("Edycja klienta (SPA) w trakcie budowy...", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            return null;
         }
     }
 }
@@ -2033,6 +2186,25 @@ using System.Windows;
 
 namespace ProjectBike.Desktop.Services
 {
+    //public interface IManageRentalWindowService
+    //{
+    //    bool Show(int clientId, string clientName);
+    //}
+
+    //public class ManageRentalWindowService : IManageRentalWindowService
+    //{
+    //    private readonly Func<ManageRentalWindow> _factory;
+    //    public ManageRentalWindowService(Func<ManageRentalWindow> factory) => _factory = factory;
+
+    //    public bool Show(int clientId, string clientName)
+    //    {
+    //        var win = _factory();
+    //        win.Owner = Application.Current.MainWindow;
+    //        win.SetClient(clientId, clientName);
+    //        return win.ShowDialog() == true;
+    //    }
+    //}
+
     public interface IManageRentalWindowService
     {
         bool Show(int clientId, string clientName);
@@ -2040,15 +2212,10 @@ namespace ProjectBike.Desktop.Services
 
     public class ManageRentalWindowService : IManageRentalWindowService
     {
-        private readonly Func<ManageRentalWindow> _factory;
-        public ManageRentalWindowService(Func<ManageRentalWindow> factory) => _factory = factory;
-
         public bool Show(int clientId, string clientName)
         {
-            var win = _factory();
-            win.Owner = Application.Current.MainWindow;
-            win.SetClient(clientId, clientName);
-            return win.ShowDialog() == true;
+            MessageBox.Show($"Zarządzanie wypożyczeniami dla: {clientName} w przebudowie...", "Nawigacja");
+            return false;
         }
     }
 }
@@ -2914,95 +3081,203 @@ namespace ProjectBike.Desktop.ViewModels
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddBikeWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.AddBikeWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodaj Rower"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\AddClientView.xaml ---
+<UserControl x:Class="ProjectBike.Desktop.Views.AddClientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="{DynamicResource MaterialDesign.Brush.Background}">
 
-    <Grid Margin="12">
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="True" />
+    </UserControl.CacheMode>
+
+    <Grid Margin="24,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Marka:" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="1" Width="320"
-                 Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
 
-        <TextBlock Grid.Row="2" Text="Model:" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="3" Width="320"
-                 Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
+            <StackPanel Margin="0,0,0,24">
+                <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0" >
+                    <Border Background="#b58f83" 
+                            CornerRadius="0,0,16,16" 
+                            Padding="32,12,32,16">
+                        <TextBlock Text="Rejestracja nowego klienta" FontSize="24" 
+                                   FontWeight="Light" Foreground="Black"/>
+                    </Border>
+                </StackPanel>
 
-        <TextBlock Grid.Row="4" Text="Typ (np. MTB, Szosa):" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="5" Width="320"
-                 Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
+                <StackPanel Margin="0,16,0,24">
 
-        <TextBlock Grid.Row="6"
-                   Text="{Binding ValidationMessage}"
-                   Foreground="Red"
-                   Margin="0,0,0,12"
-                   TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="Account" Width="20" Height="20"
+                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="DANE OSOBOWE" FontSize="14" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Anuluj" Width="110" Margin="0,0,8,0"
-                    Command="{Binding CancelCommand}" IsCancel="True"/>
-            <Button Content="PotwierdĹş" Width="110"
-                    Command="{Binding ConfirmCommand}" IsDefault="True"/>
-        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Imię"
+                                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Nazwisko"
+                                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,0,16" 
+                                 FontSize="16" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="HomeModern" Width="20" Height="20"
+                                                 VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="DANE KONTAKTOWE" FontSize="14" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Ulica"
+                                 Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Numer Domu"
+                                 Text="{Binding HouseNumber, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Miasto"
+                                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,0,16" 
+                                 FontSize="16" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Województwo"
+                                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="Kod Pocztowy"
+                                 Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="150" 
+                                 Margin="0,0,16,16" 
+                                 FontSize="16" />
+
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  materialDesign:HintAssist.Hint="Kraj"
+                                  Width="150" 
+                                  Margin="0,0,16,16" 
+                                  FontSize="16">
+                            <ComboBoxItem Content="Polska" IsSelected="True" />
+                            <ComboBoxItem Content="Niemcy" />
+                            <ComboBoxItem Content="Czechy" />
+                            <ComboBoxItem Content="Słowacja" />
+                            <ComboBoxItem Content="Ukraina" />
+                        </ComboBox>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16" Opacity="0.6">
+                        <materialDesign:PackIcon Kind="BoxAddOutline" Width="20" Height="20"
+                                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="INFORMACJE O KLIENCIE" FontSize="14" FontWeight="Bold"
+                                    VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Wzrost"
+                             Text="{Binding Pref1, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,16,16" FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Waga"
+                             Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,16,16" FontSize="16" />
+
+                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Wiek"
+                             Text="{Binding Pref2, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             Margin="0,0,0,16" FontSize="16" />
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24" Orientation="Horizontal">
+                    <Button Content="DODAJ KLIENTA"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                            ToolTip="MaterialDesignOutlinedButton"
+                            Width="250" Height="50"/>        
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
-</Window>
+</UserControl>
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddBikeWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Bikes;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\AddClientVIew.xaml.cs ---
 using System.Windows;
+using System.Windows.Controls;
 
-namespace ProjectBike.Desktop.Windows
+namespace ProjectBike.Desktop.Views
 {
-    public partial class AddBikeWindow : Window
+    public partial class AddClientView : UserControl
     {
-        public AddBikeWindow(AddBikeViewModel vm)
+        public AddClientView()
         {
             InitializeComponent();
-            DataContext = vm;
-            vm.CloseRequested += (s, result) =>
-            {
-                DialogResult = result;
-                Close();
-            };
         }
     }
 }
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddClientVIew.xaml ---
-<UserControl x:Class="ProjectBike.Desktop.Views.AddClientView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\BikesView.xaml ---
+<Window x:Class="ProjectBike.Desktop.Views.BikesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectBike.Desktop.Views"
+        mc:Ignorable="d"
+        Title="BikesView" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="Prawdziwy formularz dodawania klienta!" />
-        <Button> Dodaj klienta</Button>
+        
     </Grid>
-</UserControl>
+</Window>
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddClientVIew.xaml.cs ---
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\BikesView.xaml.cs ---
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -3017,303 +3292,246 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ProjectBike.Desktop.Windows
+namespace ProjectBike.Desktop.Views
 {
     /// <summary>
-    /// Logika interakcji dla klasy AddClientVIew.xaml
+    /// Logika interakcji dla klasy BikesView.xaml
     /// </summary>
-    public partial class AddClientVIew : Window
+    public partial class BikesView : Window
     {
+        public BikesView()
+        {
+            InitializeComponent();
+        }
+    }
+}
+
+--- END FILENAME ---
+
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\ClientsVIew.xaml ---
+<Window x:Class="ProjectBike.Desktop.Views.ClientsVIew"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectBike.Desktop.Views"
+        mc:Ignorable="d"
+        Title="ClientsVIew" Height="450" Width="800">
+    <Grid>
         
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddClientWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.AddClientWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodaj Klienta"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
-
-    <Grid Margin="12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Text="ImiÄ™:" Margin="0,0,0,6" />
-        <TextBox Grid.Row="1" Width="320"
-                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8" />
-
-        <TextBlock Grid.Row="2" Text="Nazwisko:" Margin="0,0,0,6" />
-        <TextBox Grid.Row="3" Width="320"
-                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8" />
-
-        <TextBlock Grid.Row="4"
-                   Text="{Binding ValidationMessage}"
-                   Foreground="Red"
-                   Margin="0,0,0,12"
-                   TextWrapping="Wrap" />
-
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Anuluj"
-                    Width="110"
-                    Margin="0,0,8,0"
-                    Command="{Binding CancelCommand}"
-                    IsCancel="True"/>
-
-            <Button Content="PotwierdĹş"
-                    Width="110"
-                    Command="{Binding ConfirmCommand}"
-                    IsDefault="True"/>
-        </StackPanel>
     </Grid>
 </Window>
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\AddClientWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Clients;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\ClientsVIew.xaml.cs ---
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace ProjectBike.Desktop.Windows
+namespace ProjectBike.Desktop.Views
 {
-    public partial class AddClientWindow : Window
+    /// <summary>
+    /// Logika interakcji dla klasy ClientsVIew.xaml
+    /// </summary>
+    public partial class ClientsVIew : Window
     {
-        public AddClientWindow(AddClientViewModel vm)
+        public ClientsVIew()
         {
             InitializeComponent();
-            DataContext = vm;
-            vm.CloseRequested += (s, result) =>
-            {
-                DialogResult = result;
-                Close();
-            };
         }
     }
 }
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\BikesWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.BikesWindow"
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\LoadingView.xaml ---
+<Window x:Class="ProjectBike.Desktop.Views.LoadingView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Baza Rowerow" Height="450" Width="720" WindowStartupLocation="CenterOwner">
-    
-    <DockPanel Margin="12">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-            <TextBlock Text="Rowery" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-            <Button Content="Pobierz" Margin="12,0,0,0" Padding="10,4" Command="{Binding LoadCommand}" />
-            <Button Content="Dodaj" Margin="8,0,0,0" Padding="10,4" Command="{Binding AddCommand}" />
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        WindowStartupLocation="CenterScreen" Height="300" Width="500">
+
+    <Border Background="{DynamicResource MaterialDesign.Brush.PrimaryDark}" CornerRadius="16">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+            <materialDesign:PackIcon Kind="Bike" Width="80" Height="80" 
+                                     HorizontalAlignment="Center" Foreground="White" 
+                                     Margin="0,0,0,10"/>
+            
+            <TextBlock Text="RENT APP" FontSize="36" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Foreground="White"/>
+            
+            <TextBlock Text="Trwa uruchamianie systemu..." FontSize="16" 
+                       HorizontalAlignment="Center" Foreground="White"
+                       Opacity="0.8" Margin="0,10,0,30"/>
+
+            <ProgressBar x:Name="DeterminateCircularProgress"
+                         Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         IsIndeterminate="True"
+                         Width="50" Height="50"
+                         Foreground="White" />
         </StackPanel>
-
-        <Border DockPanel.Dock="Bottom" Margin="0,8,0,0" Padding="8" Background="#EEE" CornerRadius="4">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center">
-                    <Run Text="Wybrany rower: " FontWeight="Bold"/>
-                    <Run Text="{Binding SelectedBikeName, Mode=OneWay}" />
-                </TextBlock>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
-                    <Button Content="Edytuj" Padding="10,4" Margin="0,0,8,0" Command="{Binding EditCommand}" />
-                    <Button Content="Usun" Padding="10,4" Command="{Binding DeleteCommand}" />
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <DataGrid ItemsSource="{Binding Bikes}" SelectedItem="{Binding SelectedBike}" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Marka / Model" Binding="{Binding Description}" Width="*" />
-                <DataGridTextColumn Header="Typ" Binding="{Binding Type}" Width="140" />
-                <DataGridCheckBoxColumn Header="Dostepny" Binding="{Binding IsAvailable}" Width="80" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+    </Border>
 </Window>
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\BikesWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Bikes;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\LoadingView.xaml.cs ---
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace ProjectBike.Desktop.Windows
+namespace ProjectBike.Desktop.Views
 {
-    public partial class BikesWindow : Window
+    public partial class LoadingView : Window
     {
-        private readonly BikesViewModel _vm;
-        public BikesWindow(BikesViewModel vm)
+        public LoadingView()
         {
             InitializeComponent();
-            _vm = vm;
-            DataContext = _vm;
-            Loaded += (s, e) => { if (_vm.LoadCommand.CanExecute(null)) _vm.LoadCommand.Execute(null); };
-            Closing += (s, e) => { DialogResult = _vm.HasChanges; };
         }
     }
 }
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\EditBikeWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.EditBikeWindow"
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\RentalsView.xaml ---
+<Window x:Class="ProjectBike.Desktop.Views.RentalsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Edytuj Rower"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
-	
-    <Grid Margin="12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Text="Marka:" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="1" Width="320"
-                 Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
-
-        <TextBlock Grid.Row="2" Text="Model:" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="3" Width="320"
-                 Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
-
-        <TextBlock Grid.Row="4" Text="Typ:" Margin="0,0,0,6"/>
-        <TextBox Grid.Row="5" Width="320"
-                 Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8"/>
-
-        <TextBlock Grid.Row="6"
-                   Text="{Binding ValidationMessage}"
-                   Foreground="Red"
-                   Margin="0,0,0,12"
-                   TextWrapping="Wrap" />
-
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Anuluj" Width="110" Margin="0,0,8,0"
-                    Command="{Binding CancelCommand}" IsCancel="True"/>
-            <Button Content="PotwierdĹş" Width="110"
-                    Command="{Binding ConfirmCommand}" IsDefault="True"/>
-        </StackPanel>
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectBike.Desktop.Views"
+        mc:Ignorable="d"
+        Title="RentalsView" Height="450" Width="800">
+    <Grid>
+        
     </Grid>
 </Window>
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\EditBikeWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Bikes;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\RentalsView.xaml.cs ---
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace ProjectBike.Desktop.Windows
+namespace ProjectBike.Desktop.Views
 {
-    public partial class EditBikeWindow : Window
+    /// <summary>
+    /// Logika interakcji dla klasy RentalsView.xaml
+    /// </summary>
+    public partial class RentalsView : Window
     {
-        public EditBikeWindow(EditBikeViewModel vm)
+        public RentalsView()
         {
             InitializeComponent();
-            DataContext = vm;
-            vm.CloseRequested += (s, result) =>
-            {
-                DialogResult = result;
-                Close();
-            };
         }
     }
 }
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\EditClientWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.EditClientWindow"
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\StartView.xaml ---
+<UserControl x:Class="ProjectBike.Desktop.Views.StartView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Edytuj Klienta"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesign.Brush.Background}">
 
-    <Grid Margin="12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="True" />
+    </UserControl.CacheMode>
 
-        <TextBlock Text="ImiÄ™:" Margin="0,0,0,6" />
-        <TextBox Grid.Row="1" Width="320"
-                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8" />
+    <Grid>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
 
-        <TextBlock Grid.Row="2" Text="Nazwisko:" Margin="0,0,0,6" />
-        <TextBox Grid.Row="3" Width="320"
-                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,8" />
+            <TextBlock x:Name="TimeTextBlock" 
+                       Text="12:00"
+                       FontSize="120"
+                       FontWeight="Light"
+                       HorizontalAlignment="Center"/>
+            
+            <TextBlock x:Name="DateTextBlock"
+                       Text="Poniedziałek, 1 stycznia 2026"
+                       FontSize="34"
+                       FontWeight="Light"
+                       HorizontalAlignment="Center"/>
 
-        <TextBlock Grid.Row="4"
-                   Text="{Binding ValidationMessage}"
-                   Foreground="Red"
-                   Margin="0,0,0,12"
-                   TextWrapping="Wrap" />
-
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Anuluj"
-                    Width="110"
-                    Margin="0,0,8,0"
-                    Command="{Binding CancelCommand}"
-                    IsCancel="True"/>
-
-            <Button Content="PotwierdĹş"
-                    Width="110"
-                    Command="{Binding ConfirmCommand}"
-                    IsDefault="True"/>
+            <TextBlock Text="Witamy w systemie zarządzania wypożyczalnią rowerów!"
+                       FontSize="24"
+                       FontWeight="UltraLight"
+                       HorizontalAlignment="Center"
+                       Margin="0,20,0,0"/>
         </StackPanel>
     </Grid>
-</Window>
+</UserControl>
+
 
 --- END FILENAME ---
 
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\EditClientWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Clients;
-using System.Windows;
+--- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Views\StartView.xaml.cs ---
 
-namespace ProjectBike.Desktop.Windows
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using System.Globalization;
+
+namespace ProjectBike.Desktop.Views
 {
-    public partial class EditClientWindow : Window
+    public partial class StartView : UserControl
     {
-        public EditClientWindow(EditClientViewModel vm)
+
+        public StartView()
         {
             InitializeComponent();
-            DataContext = vm;
-            vm.CloseRequested += (s, result) =>
-            {
-                DialogResult = result;
-                Close();
-            };
+
+            Loaded += StartView_Loaded;
+        }
+
+        private void StartView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Odśwież od razu
+            UpdateTime(null, null);
+        }
+
+        private void UpdateTime(object? sender, EventArgs? e)
+        {
+            var culture = new CultureInfo("pl-PL");
+            TimeTextBlock.Text = DateTime.Now.ToString("HH:mm");
+            DateTextBlock.Text = DateTime.Now.ToString("dddd, d MMMM yyyy", culture);
         }
     }
 }
@@ -3328,68 +3546,148 @@ namespace ProjectBike.Desktop.Windows
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectBike.Desktop.Windows"
+        xmlns:views="clr-namespace:ProjectBike.Desktop.Views"
         mc:Ignorable="d"
         Title="Project Bike" Height="480" Width="854"
         MinHeight="480" MinWidth="854" 
+        Icon="/Windows/icon.ico"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
         Background="{DynamicResource MaterialDesign.Brush.Background}"
         FontFamily="{DynamicResource MaterialDesign.FontFamily}">
 
-    <materialDesign:Card UniformCornerRadius="0">
-        <Grid>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <materialDesign:ColorZone Grid.Row="0" 
+                                      Padding="16,8"
+                                      materialDesign:ElevationAssist.Elevation="Dp3"
+                                      Mode="PrimaryMid">
+            <DockPanel>
+                <Button Style="{StaticResource MaterialDesignToolButton}" 
+                                Click="LogoButton_Click"   
+                                Height="40">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Bike" 
+                                                     Width="32" Height="32" 
+                                                     VerticalAlignment="Center"/>
+                        <TextBlock Text="RENT APP" 
+                                       FontSize="20" 
+                                       FontWeight="Bold"
+                                       Margin="12,0,0,0" 
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <materialDesign:PopupBox HorizontalAlignment="Right"
+                                             PlacementMode="BottomAndAlignRightEdges" 
+                                             StaysOpen="False" Margin="16,0,0,0">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <StackPanel Orientation="Horizontal"                          
+                                        Cursor="Hand">
+                            <TextBlock Text="Mój Profil" 
+                                           FontSize="15"
+                                           Margin="0,0,8,0" 
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Bold"/>
+                            <materialDesign:PackIcon Kind="AccountCircle" 
+                                                         Width="36" Height="36"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox.ToggleContent>
+
+                    <StackPanel Width="150">
+                        <Button Content="Ustawienia" />
+                        <Separator/>
+                        <Button Content="Wyloguj" 
+                                    FontWeight="Bold"
+                                    Foreground="IndianRed" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
+
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <ListBox x:Name="MenuListBox" Grid.Column="0" 
-                     
-                     SelectionChanged="MenuListBox_SelectionChanged"
-                     Width="120"
+                     Width="Auto"
                      SelectedIndex="0">
-                
+
+                <ListBoxItem Visibility="Collapsed" />
+
                 <ListBoxItem>
                     <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="Bike"/>
-                        <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" Text="Dodaj Klienta" />
+                        <materialDesign:PackIcon Width="28"
+                                                 Height="28" 
+                                                 HorizontalAlignment="Center"
+                                                 Kind="AccountPlus"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Dodaj Klienta" />
                     </StackPanel>
                 </ListBoxItem>
 
                 <ListBoxItem>
                     <StackPanel Margin="8,12">
-                        <materialDesign:PackIcon Width="28" Height="28" HorizontalAlignment="Center" Kind="FolderAccount"/>
-                        <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" Text="Wypożyczenia" />
+                        <materialDesign:PackIcon Width="28" 
+                                                 Height="28" 
+                                                 HorizontalAlignment="Center" 
+                                                 Kind="KeyChain"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Wypożyczenia" />
                     </StackPanel>
                 </ListBoxItem>
-                
-                </ListBox>
 
-            <materialDesign:Transitioner Grid.Column="1" 
-                                         SelectedIndex="{Binding ElementName=MenuListBox, Path=SelectedIndex}">
+                <ListBoxItem>
+                    <StackPanel Margin="8,12">
+                        <materialDesign:PackIcon Width="28" 
+                                                 Height="28"
+                                                 HorizontalAlignment="Center" 
+                                                 Kind="Archive"/>
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Margin="0,4,0,0" 
+                                   Text="Baza Rowerów" />
+                    </StackPanel>
+                </ListBoxItem>
 
-                <materialDesign:TransitionerSlide>
-                    <materialDesign:TransitionerSlide.OpeningEffects>
-                        <materialDesign:TransitionEffect Kind="SlideInFromRight" Duration="0:0:0.4" />
-                    </materialDesign:TransitionerSlide.OpeningEffects>
 
-                    <Windows:AddClientVIiew />
 
-                </materialDesign:TransitionerSlide>
+            </ListBox>
+
+            <materialDesign:Transitioner Grid.Column="1"  
+                             SelectedIndex="{Binding ElementName=MenuListBox, Path=SelectedIndex}">
+
+                <views:StartView />
+
+                <views:AddClientView />
+
+                <views:AddClientView />
 
             </materialDesign:Transitioner>
 
         </Grid>
-    </materialDesign:Card>
-
+    </Grid>
 </Window>
 
 --- END FILENAME ---
 
 --- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\FinalMainWindow.xaml.cs ---
+using ProjectBike.Desktop.Views;
 using System.Windows;
 using System.Windows.Controls;
-using ProjectBike.Desktop.Views;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace ProjectBike.Desktop.Windows
 {
@@ -3398,180 +3696,20 @@ namespace ProjectBike.Desktop.Windows
         public FinalMainWindow()
         {
             InitializeComponent();
+        }
 
-            // Ustawiamy domyślny widok po włączeniu aplikacji (np. pierwszy element z listy)
+        private void LogoButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Indeks 0 odpowiada za StartView
             MenuListBox.SelectedIndex = 0;
         }
-
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\MainWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converters="clr-namespace:ProjectBike.Desktop.Converters"
-        xmlns:vm="clr-namespace:ProjectBike.Desktop.ViewModels.Clients"
-        Title="System WypoĹĽyczalni RowerĂłw" Height="450" Width="800">
-
-    <Window.Resources>
-        <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-    </Window.Resources>
-
-    <DockPanel Margin="12">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-            <TextBlock Text="Klienci" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-            <Button Content="Pobierz" Margin="12,0,0,0" Padding="10,4" Command="{Binding LoadCommand}" />
-            <Button Content="Dodaj" Margin="8,0,0,0" Padding="10,4" Command="{Binding AddCommand}" />
-            <Button Content="Rowery (Baza)" Margin="8,0,0,0" Padding="10,4" Command="{Binding OpenBikesCommand}" />
-        </StackPanel>
-
-        <Border DockPanel.Dock="Bottom" Margin="0,8,0,0" Padding="8" Background="#EEE" CornerRadius="4">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center">
-                    <Run Text="Wybrany Klient: " FontWeight="Bold"/>
-                    <Run Text="{Binding SelectedClientName, Mode=OneWay}" />
-                </TextBlock>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
-                    <Button Content="WypoĹĽycz / ZwrĂłÄ‡" Padding="10,4" Margin="0,0,8,0" Command="{Binding ManageRentalsCommand}" />
-                    <Button Content="Edytuj" Padding="10,4" Margin="0,0,8,0" Command="{Binding EditCommand}" />
-                    <Button Content="UsuĹ„" Padding="10,4" Command="{Binding DeleteCommand}" />
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="3*" />
-            </Grid.ColumnDefinitions>
-
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,8,0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Klient" Binding="{Binding DisplayName}" Width="*" />
-                    <DataGridTextColumn Header="WypoĹĽyczenia" Binding="{Binding RentalsCount}" Width="100" />
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <GroupBox Grid.Column="1" Header="Aktualne wypoĹĽyczenia klienta">
-                <DataGrid ItemsSource="{Binding ClientRentals}" AutoGenerateColumns="False" IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Rower" Binding="{Binding BikeName}" Width="*" />
-                        <DataGridTextColumn Header="Do dnia" Binding="{Binding EndDate, StringFormat={}{0:yyyy-MM-dd}}" Width="100" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
-        </Grid>
-    </DockPanel>
-</Window>
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\MainWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Clients;
-using System.Windows;
-
-namespace ProjectBike.Desktop
-{
-    public partial class MainWindow : Window
-    {
-        public MainWindow(MainViewModel vm)
+        private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            InitializeComponent();
-            DataContext = vm;
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove(); // Wbudowana funkcja WPF do przenoszenia okna
+            }
         }
-    }
-}
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\ManageRentalWindow.xaml ---
-<Window x:Class="ProjectBike.Desktop.Windows.ManageRentalWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ZarzÄ…dzaj WypoĹĽyczeniami" Height="520" Width="760" WindowStartupLocation="CenterOwner">
-
-    <DockPanel Margin="12">
-        <TextBlock DockPanel.Dock="Top" Text="{Binding TitleText}" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-
-        <Border DockPanel.Dock="Bottom" Margin="0,10,0,0" Padding="10" Background="#EEE" CornerRadius="4">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Margin="0,0,8,0">
-                    <TextBlock Text="Wybierz rower:" FontSize="10" Margin="0,0,0,2"/>
-                    <ComboBox ItemsSource="{Binding AvailableBikes}" 
-                              SelectedItem="{Binding SelectedAvailableBike}" 
-                              DisplayMemberPath="Display" 
-                              MinWidth="350"/>
-                </StackPanel>
-
-                <StackPanel Grid.Column="1" Margin="0,0,8,0">
-                    <TextBlock Text="Dni:" FontSize="10" Margin="0,0,0,2"/>
-                    <TextBox Text="{Binding RentalDays, UpdateSourceTrigger=PropertyChanged}" 
-                             Width="50" 
-                             Padding="3"
-                             VerticalContentAlignment="Center"/>
-                </StackPanel>
-
-                <Button Grid.Column="2" 
-                        Content="WypoĹĽycz" 
-                        Padding="14,6" 
-                        Command="{Binding AddRentalCommand}" 
-                        VerticalAlignment="Bottom"/>
-            </Grid>
-        </Border>
-
-        <DataGrid ItemsSource="{Binding CurrentRentals}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,10">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Rower" Binding="{Binding BikeName}" Width="*" />
-                <DataGridTextColumn Header="Termin zwrotu" Binding="{Binding EndDate, StringFormat={}{0:yyyy-MM-dd}}" Width="140" />
-                <DataGridTemplateColumn Header="Akcje" Width="90">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="ZwrĂłÄ‡" 
-                                    Padding="10,4" 
-                                    Command="{Binding DataContext.ReturnBikeCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
-                                    CommandParameter="{Binding}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
-</Window>
-
---- END FILENAME ---
-
---- START FILENAME: C:\Users\Jakub\source\repos\JakubKoza\ProjectBike_My\ProjectBike.Desktop\Windows\ManageRentalWindow.xaml.cs ---
-using ProjectBike.Desktop.ViewModels.Rentals;
-using System.ComponentModel;
-using System.Windows;
-
-namespace ProjectBike.Desktop.Windows
-{
-    public partial class ManageRentalWindow : Window
-    {
-        private readonly ManageRentalViewModel _vm;
-        public ManageRentalWindow(ManageRentalViewModel vm)
-        {
-            InitializeComponent();
-            _vm = vm;
-            DataContext = _vm;
-            Loaded += (s, e) => { if (_vm.LoadCommand.CanExecute(null)) _vm.LoadCommand.Execute(null); };
-            Closing += (s, e) => { DialogResult = _vm.HasChanges; };
-        }
-        public void SetClient(int id, string name) => _vm.SetClient(id, name);
     }
 }
 
@@ -3584,11 +3722,16 @@ namespace ProjectBike.Desktop.Windows
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Teal" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+
+                    <materialDesign:CustomColorTheme BaseTheme="Dark" 
+                                                     PrimaryColor="#b58f83" 
+                                                     SecondaryColor="#e7bfb2" />
+
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
     </Application.Resources>
 </Application>
 
@@ -3644,14 +3787,15 @@ namespace ProjectBike.Desktop
                     services.AddSingleton<IBikeDialogService, BikeDialogService>();
                     services.AddSingleton<IBikesWindowService, BikesWindowService>();
                     services.AddSingleton<IManageRentalWindowService, ManageRentalWindowService>();
+                        
 
                     // 5. Fabryki Okien (rozwiązanie dla Twoich Func<Window>)
-                    services.AddSingleton<Func<AddClientWindow>>(sp => () => sp.GetRequiredService<AddClientWindow>());
-                    services.AddSingleton<Func<EditClientWindow>>(sp => () => sp.GetRequiredService<EditClientWindow>());
-                    services.AddSingleton<Func<AddBikeWindow>>(sp => () => sp.GetRequiredService<AddBikeWindow>());
-                    services.AddSingleton<Func<EditBikeWindow>>(sp => () => sp.GetRequiredService<EditBikeWindow>());
-                    services.AddSingleton<Func<BikesWindow>>(sp => () => sp.GetRequiredService<BikesWindow>());
-                    services.AddSingleton<Func<ManageRentalWindow>>(sp => () => sp.GetRequiredService<ManageRentalWindow>());
+                    //services.AddSingleton<Func<AddClientWindow>>(sp => () => sp.GetRequiredService<AddClientWindow>());
+                    //services.AddSingleton<Func<EditClientWindow>>(sp => () => sp.GetRequiredService<EditClientWindow>());
+                    //services.AddSingleton<Func<AddBikeWindow>>(sp => () => sp.GetRequiredService<AddBikeWindow>());
+                    //services.AddSingleton<Func<EditBikeWindow>>(sp => () => sp.GetRequiredService<EditBikeWindow>());
+                    //services.AddSingleton<Func<BikesWindow>>(sp => () => sp.GetRequiredService<BikesWindow>());
+                    //services.AddSingleton<Func<ManageRentalWindow>>(sp => () => sp.GetRequiredService<ManageRentalWindow>());
 
                     // 6. ViewModele
                     services.AddTransient<MainViewModel>();
@@ -3664,28 +3808,42 @@ namespace ProjectBike.Desktop
 
                     // 7. Okna widoków
                     services.AddTransient<FinalMainWindow>();
-                    services.AddTransient<AddClientWindow>();
-                    services.AddTransient<EditClientWindow>();
-                    services.AddTransient<AddBikeWindow>();
-                    services.AddTransient<EditBikeWindow>();
-                    services.AddTransient<BikesWindow>();
-                    services.AddTransient<ManageRentalWindow>();
+                    //services.AddTransient<AddClientWindow>();
+                    //services.AddTransient<EditClientWindow>();
+                    //services.AddTransient<AddBikeWindow>();
+                    //services.AddTransient<EditBikeWindow>();
+                    //services.AddTransient<BikesWindow>();
+                    //services.AddTransient<ManageRentalWindow>();
                 })
                 .Build();
         }
         protected override async void OnStartup(StartupEventArgs e)
         {
+            // 1. Pokaż okno ładowania
+            var loadingWindow = new ProjectBike.Desktop.Views.LoadingView();
+            loadingWindow.Show();
+
+            // 2. Uruchom hosta DI
             await _host.StartAsync();
 
-            // Odpalenie Seedera, aby załadować startowe dane do pamięci RAM
-            var seeder = _host.Services.GetRequiredService<IDataSeeder>();
-            seeder.Seed();
+            // 3. Załaduj dane i odczekaj 2 sekundy w tle (żeby okno nie "zamarzło")
+            await System.Threading.Tasks.Task.Run(async () =>
+            {
+                var seeder = _host.Services.GetRequiredService<IDataSeeder>();
+                seeder.Seed();
+                await System.Threading.Tasks.Task.Delay(2000);
+            });
 
-            // Uruchomienie Głównego Okna
-            var startmainWindow = _host.Services.GetRequiredService<FinalMainWindow>();
+            // 4. Pobierz i pokaż normalnie Główne Okno
+            var startmainWindow = _host.Services.GetRequiredService<ProjectBike.Desktop.Windows.FinalMainWindow>();
             startmainWindow.Show();
 
+            // 5. Zamknij okno ładowania
+            loadingWindow.Close();
+
             base.OnStartup(e);
+
+
         }
 
         protected override async void OnExit(ExitEventArgs e)
@@ -3755,11 +3913,12 @@ namespace ProjectBike.ServiceAbstractions;
 
 public interface IClientService
 {
-    int CreateClient(string firstName, string lastName, int age, double height, double weight, string riderPreference);
+    int CreateClient(string firstName, string lastName, int age, double height, double weight,
+                     string street, string housenumber, string city, string state, string zipcode, string country);
     Client? Get(int id);
     IReadOnlyList<Client> GetAll();
-    IReadOnlyList<Client> GetByRiderPreference(string preference);
-    void UpdateClient(int id, string fname, string lname);
+    void UpdateClient(int id, string firstName, string lastName, int age, double height, double weight,
+                     string street, string housenumber, string city, string state, string zipcode, string country);
     bool DeleteClient(int clientId);
 }
 
@@ -3786,9 +3945,9 @@ public sealed class SeedResult
     public int Bike2Id { get; set; }
     public int Bike3Id { get; set; }
     //klienci
-    public int Clien1tId { get; set; }
-    public int Clien2tId { get; set; }
-    public int Clien3tId { get; set; }
+    public int Client1Id { get; set; }
+    public int Client2Id { get; set; }
+    public int Client3Id { get; set; }
     //pracownicy
     public int Employee1Id {  get; set; }
     public int Employee2Id { get; set; }
@@ -3956,7 +4115,8 @@ public class ClientService : IClientService
         _uow = uow;
     }
 
-    public int CreateClient(string firstName, string lastName, int age, double height, double weight, string riderPreference)
+    public int CreateClient(string firstName, string lastName, int age, double height, double weight,
+                            string street, string housenumber, string city, string state, string zipcode, string country)
     {
         var client = new Client
         {
@@ -3965,7 +4125,14 @@ public class ClientService : IClientService
             Age = age,
             Height = height,
             Weight = weight,
-            RiderPreference = riderPreference
+
+            Street = street,
+            HouseNumber = housenumber,
+            City = city,
+            State = state,
+            ZipCode = zipcode,
+            Country = country
+
         };
 
         _clients.Add(client);
@@ -3978,16 +4145,29 @@ public class ClientService : IClientService
 
     public IReadOnlyList<Client> GetAll() => _clients.Query().ToList();
 
-    public IReadOnlyList<Client> GetByRiderPreference(string preference) =>
-        _clients.Query().Where(c => c.RiderPreference == preference).ToList();
 
-    public void UpdateClient(int id, string fname, string lname)
+    public void UpdateClient(int id, string firstname, string lastname, int age, double height, double weight,
+                        string street, string housenumber, string city, string state, string zipcode, string country)
     {
         var client = _clients.Get(id);
         if (client != null)
         {
-            client.Firstname = fname;
-            client.Lastname = lname;
+            // Dane podstawowe
+            client.Firstname = firstname;
+            client.Lastname = lastname;
+            client.Age = age;
+            client.Height = height;
+            client.Weight = weight;
+
+            // Dane adresowe
+            client.Street = street;
+            client.HouseNumber = housenumber;
+            client.City = city;
+            client.State = state;
+            client.ZipCode = zipcode;
+            client.Country = country;
+
+            // Zapisanie zmian w bazie
             _uow.SaveChanges();
         }
     }
@@ -4044,9 +4224,9 @@ public class DataSeeder : IDataSeeder
 
         //klienci
 
-        var client1Id = _clientService.CreateClient("Jakub", "Kozłowski", 22, 178.5, 78.0, "Downhill");
-        var client2Id = _clientService.CreateClient("Piotr", "Gała", 25, 181.5, 70.0, "Enduro");
-        var client3Id = _clientService.CreateClient("Kuba", "Zatoń", 21, 169.5, 99.0, "FreeRide");
+        var client1Id = _clientService.CreateClient("Jakub", "Kozłowski", 22, 178.5, 78.0, "Kwiatowa", "1", "Warszawa", "Mazowieckie", "00-001", "Polska");
+        //var client2Id = _clientService.CreateClient("Piotr", "Gała", 25, 181.5, 70.0, "Enduro");
+        //var client3Id = _clientService.CreateClient("Kuba", "Zatoń", 21, 169.5, 99.0, "FreeRide");
 
         //zlecenia
 
@@ -4058,6 +4238,8 @@ public class DataSeeder : IDataSeeder
             Bike1Id = bike1Id,
             Bike2Id = bike2Id,
             Bike3Id = bike3Id,
+
+            Client1Id = client1Id,
 
         };
     }

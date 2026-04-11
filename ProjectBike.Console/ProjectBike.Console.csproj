@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UI %28Stare, Nieużywane%29\**" />
+    <Compile Remove="UI\**" />
+    <EmbeddedResource Remove="UI %28Stare, Nieużywane%29\**" />
+    <EmbeddedResource Remove="UI\**" />
+    <None Remove="UI %28Stare, Nieużywane%29\**" />
+    <None Remove="UI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ProjectBike.Abstractions\ProjectBike.Abstractions.csproj" />
     <ProjectReference Include="..\ProjectBike.DataModel\ProjectBike.DataModel.csproj" />
     <ProjectReference Include="..\ProjectBike.Services.Memory\ProjectBike.Services.csproj" />

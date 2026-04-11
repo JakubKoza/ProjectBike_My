@@ -1,4 +1,5 @@
 ﻿using System;
+using ProjectBike.Console.UIDictionary;
 using ProjectBike.ServiceAbstractions;
 namespace ProjectBike.Console.UI
 {
@@ -21,9 +22,10 @@ namespace ProjectBike.Console.UI
             {
                 System.Console.Clear();
                 System.Console.WriteLine("=== STARE MENU (SWITCH) ===");
-                System.Console.WriteLine("1) Rowery");
-                System.Console.WriteLine("2) Pracownicy");
-                System.Console.WriteLine("3) Wypożyczenia");
+                System.Console.WriteLine("1) Klienci");
+                System.Console.WriteLine("2) Rowery");
+                System.Console.WriteLine("3) Pracownicy");
+                System.Console.WriteLine("4) Wypożyczenia");
                 System.Console.WriteLine("0) Wyjście");
                 System.Console.Write("Wybierz opcję: ");
 
@@ -32,13 +34,13 @@ namespace ProjectBike.Console.UI
 
                 switch (key.KeyChar)
                 {
-                    case '1':
+                    case '2':
                         _bikeMenu.Run();
                         break;
-                    case '2':
+                    case '3':
                         _employeesMenu.Run();
                         break;
-                    case '3':
+                    case '4':
                         _rentalMenu.Run();
                         break;
                     case '0':

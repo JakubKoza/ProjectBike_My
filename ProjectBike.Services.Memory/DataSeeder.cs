@@ -37,9 +37,9 @@ public class DataSeeder : IDataSeeder
 
         //klienci
 
-        var client1Id = _clientService.CreateClient("Jakub", "Kozłowski", 22, 178.5, 78.0, "Downhill");
-        var client2Id = _clientService.CreateClient("Piotr", "Gała", 25, 181.5, 70.0, "Enduro");
-        var client3Id = _clientService.CreateClient("Kuba", "Zatoń", 21, 169.5, 99.0, "FreeRide");
+        var client1Id = _clientService.CreateClient("Jakub", "Kozłowski", 22, 178.5, 78.0, "Kwiatowa", "1", "Warszawa", "Mazowieckie", "00-001", "Polska");
+        //var client2Id = _clientService.CreateClient("Piotr", "Gała", 25, 181.5, 70.0, "Enduro");
+        //var client3Id = _clientService.CreateClient("Kuba", "Zatoń", 21, 169.5, 99.0, "FreeRide");
 
         //zlecenia
 
@@ -51,6 +51,8 @@ public class DataSeeder : IDataSeeder
             Bike1Id = bike1Id,
             Bike2Id = bike2Id,
             Bike3Id = bike3Id,
+
+            Client1Id = client1Id,
 
         };
     }

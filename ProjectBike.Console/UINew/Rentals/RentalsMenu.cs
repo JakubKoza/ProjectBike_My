@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew;
+using ProjectBike.Console.UINew.Core;
+using ProjectBike.Console.UINew.Helpers;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Rentals;
 
 public class RentalsMenu : MenuBase
 {
