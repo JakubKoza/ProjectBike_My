@@ -21,7 +21,8 @@ public class ClientService : IClientService
         _uow = uow;
     }
 
-    public int CreateClient(string firstName, string lastName, int age, double height, double weight, string riderPreference)
+    public int CreateClient(string firstName, string lastName, int age, double height, double weight,
+                            string street, string housenumber, string city, string state, string zipcode, string country)
     {
         var client = new Client
         {
@@ -30,7 +31,14 @@ public class ClientService : IClientService
             Age = age,
             Height = height,
             Weight = weight,
-            RiderPreference = riderPreference
+
+            Street = street,
+            HouseNumber = housenumber,
+            City = city,
+            State = state,
+            ZipCode = zipcode,
+            Country = country
+
         };
 
         _clients.Add(client);
@@ -43,16 +51,28 @@ public class ClientService : IClientService
 
     public IReadOnlyList<Client> GetAll() => _clients.Query().ToList();
 
-    public IReadOnlyList<Client> GetByRiderPreference(string preference) =>
-        _clients.Query().Where(c => c.RiderPreference == preference).ToList();
-
-    public void UpdateClient(int id, string fname, string lname)
+    public void UpdateClient(int id, string firstname, string lastname, int age, double height, double weight,
+                        string street, string housenumber, string city, string state, string zipcode, string country)
     {
         var client = _clients.Get(id);
         if (client != null)
         {
-            client.Firstname = fname;
-            client.Lastname = lname;
+            // Dane podstawowe
+            client.Firstname = firstname;
+            client.Lastname = lastname;
+            client.Age = age;
+            client.Height = height;
+            client.Weight = weight;
+
+            // Dane adresowe
+            client.Street = street;
+            client.HouseNumber = housenumber;
+            client.City = city;
+            client.State = state;
+            client.ZipCode = zipcode;
+            client.Country = country;
+
+            // Zapisanie zmian w bazie
             _uow.SaveChanges();
         }
     }

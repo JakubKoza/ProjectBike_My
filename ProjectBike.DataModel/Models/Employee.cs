@@ -16,7 +16,5 @@ namespace ProjectBike.DataModel.Models
             get { return _position; }
             set { _position = value; }
         }
-
-        //public List<Rental> Rentals { get; set; } = new(); // Asocjacja z wypożyczeniami
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace ProjectBike.Console.Helpers
+namespace ProjectBike.Console.UINew.Helpers
 {
     public static class ConsoleHelpers
     {

@@ -3,7 +3,7 @@ using ProjectBike.DataAccess.Memory;
 using ProjectBike.DataAccess.Memory.Repositories;
 using ProjectBike.ServiceAbstractions;
 using ProjectBike.Services;
-using ProjectBike.Console.UIDictionary;
+using ProjectBike.Console.UINew;
 
 namespace Program;
 class Program

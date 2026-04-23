@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using ProjectBike.ServiceAbstractions;
 
-namespace ProjectBike.Console.Helpers;
+namespace ProjectBike.Console.UINew.Helpers;
 
 public static class ListPrinters
 {
@@ -37,6 +37,23 @@ public static class ListPrinters
         foreach (var e in emps)
         {
             System.Console.WriteLine($"{i++}) {e.Firstname} {e.Lastname} ({e.Position})");
+        }
+    }
+
+    public static void ShowClients(IClientService clientSvc)
+    {
+        var clients = clientSvc.GetAll();
+        if (!clients.Any())
+        {
+            System.Console.WriteLine("Brak Klientów.");
+            return;
+        }
+        System.Console.WriteLine("\n--- [] Lista Klientów [] ---");
+        int i = 1;
+        foreach (var c in clients)
+        {
+            System.Console.WriteLine($"{i++}) {c.Firstname} {c.Lastname} {c.Age} {c.Weight} {c.Height} " +
+                $"                            {c.Street} {c.HouseNumber} {c.City} {c.State} {c.ZipCode} {c.Country}");
         }
     }
     public static void ShowRentals(IRentalService rentalSvc, IClientService clientSvc, IBikeService bikeSvc)

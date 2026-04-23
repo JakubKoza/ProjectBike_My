@@ -18,9 +18,9 @@ public sealed class SeedResult
     public int Bike2Id { get; set; }
     public int Bike3Id { get; set; }
     //klienci
-    public int Clien1tId { get; set; }
-    public int Clien2tId { get; set; }
-    public int Clien3tId { get; set; }
+    public int Client1Id { get; set; }
+    public int Client2Id { get; set; }
+    public int Client3Id { get; set; }
     //pracownicy
     public int Employee1Id {  get; set; }
     public int Employee2Id { get; set; }

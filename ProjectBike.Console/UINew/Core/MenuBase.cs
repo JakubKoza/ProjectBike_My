@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectBike.Console.Helpers;
+using ProjectBike.Console.UINew.Helpers;
 
-namespace ProjectBike.Console.UIDictionary;
+namespace ProjectBike.Console.UINew.Core;
 
 public abstract class MenuBase
 {

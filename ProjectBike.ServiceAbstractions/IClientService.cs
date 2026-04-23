@@ -10,10 +10,11 @@ namespace ProjectBike.ServiceAbstractions;
 
 public interface IClientService
 {
-    int CreateClient(string firstName, string lastName, int age, double height, double weight, string riderPreference);
+    int CreateClient(string firstName, string lastName, int age, double height, double weight,
+                     string street, string housenumber, string city, string state, string zipcode, string country);
     Client? Get(int id);
     IReadOnlyList<Client> GetAll();
-    IReadOnlyList<Client> GetByRiderPreference(string preference);
-    void UpdateClient(int id, string fname, string lname);
+    void UpdateClient(int Id, string firstName, string lastName, int age, double height, double weight,
+                     string street, string housenumber, string city, string state, string zipcode, string country);
     bool DeleteClient(int clientId);
 }
