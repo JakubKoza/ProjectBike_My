@@ -1,6 +1,8 @@
 
 ![Logo](https://cdn.discordapp.com/attachments/926219187037302835/1496838360059351120/logoprojekt-Photoroom.png?ex=69eb56da&is=69ea055a&hm=13cd742a31d55bb40d20f058dd19170abd3feb846616bfb5cd7a7fbee315ad7f)
 
+##
+![Status](https://img.shields.io/badge/Status-Work_in_Progress-orange)
 
 ## 
 **Aplikacja desktopowa** do zarządzania bazą klienów i wypożyczeniami stworzona obiektowo w języku **C#** i frameworku **.NET**. Aplikacja posiada dwa niezależne interfejsy użytkownika (konsolowy oraz WPF), które korzystają z tej samej, współdzielonej logiki biznesowej
